@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Reflection;
 using FestivalDemo.WebServer.BackgroundServices;
 using FestivalDemo.WebServer.Domain.Repository;
 using FestivalDemo.WebServer.Domain.Services;
 using FestivalDemo.WebServer.DomainService.Adapters;
 using FestivalDemo.WebServer.DomainService.Commands;
+using FestivalDemo.WebServer.ExceptionFilters;
 using FestivalDemo.WebServer.Infrastructure.InMemory;
 using FestivalDemo.WebServer.Infrastructure.WebSockets;
 using FestivalDemo.WebServer.Middleware;
@@ -13,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace FestivalDemo.WebServer
 {
@@ -39,14 +42,13 @@ namespace FestivalDemo.WebServer
             services.AddTransient<IFestivalCommandDispatcher, FestivalCommandDispatcher>();
             services.AddTransient<IGuestCommandDispatcher, GuestCommandDispatcher>();
 
-            //services.AddHostedService<IncomingBackgroundService>();
             services.AddHostedService<OutgoingBackgroundService>();
-            services.AddHostedService<ListenerBackgroundService>();
+            services.AddHostedService<IncomingBackgroundService>();
 
-            services.AddControllers();
+            services.AddControllers(o => o.Filters.Add(new HttpResponseExceptionFilter()));
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FestivalDemo.WebServer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Festival Demo API", Version = "v1" });
             });
         }
 
@@ -62,9 +64,14 @@ namespace FestivalDemo.WebServer
 
             if (env.IsDevelopment())
             {
+
+
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FestivalDemo.WebServer v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Festival Demo Api");
+                });
             }
             app.UseHttpsRedirection();
             app.UseRouting();

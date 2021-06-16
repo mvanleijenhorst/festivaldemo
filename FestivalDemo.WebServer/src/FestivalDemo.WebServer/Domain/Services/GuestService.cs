@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FestivalDemo.WebServer.Domain.Models;
 using FestivalDemo.WebServer.Domain.Models.Positions;
 using FestivalDemo.WebServer.Domain.Repository;
 using FestivalDemo.WebServer.DomainService.Commands;
@@ -31,6 +32,28 @@ namespace FestivalDemo.WebServer.Domain.Services
                     guest.Move(coordinate);
                 }
             }
+        }
+
+        public Coordinate GetHotSpot()
+        {
+            var festival = _repository.GetFestival();
+
+            int guestCount = festival.GuestList.Count;
+            if (guestCount == 0)
+            {
+                return Coordinate.PointZero;
+            }
+
+            var latitude = festival.GuestList.Sum(g => g.Position.Latitude.Value) / guestCount;
+            var longitude = festival.GuestList.Sum(g => g.Position.Longitude.Value) / guestCount;
+            return Coordinate.Create(longitude, latitude);
+        }
+
+        public IEnumerable<Guest> GetAllGuests()
+        {
+            var festival = _repository.GetFestival();
+
+            return festival.GuestList;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace FestivalDemo.WebServer.Domain.Services
 {
     public class FestivalService : IFestivalService
     {
-        private const float _followerPercentage = 95.0f;
+        private const float FollowerPercentage = 70.0f;
         private readonly IFestivalRepository _repository;
         private readonly IFestivalCommandDispatcher _festivalCommandDispatcher;
         private readonly IGuestCommandDispatcher _guestCommandDispatcher;
@@ -25,28 +25,44 @@ namespace FestivalDemo.WebServer.Domain.Services
             _guestCommandDispatcher = guestCommandDispatcher;
         }
 
-        public void OpenFestival(int numberOfGuests)
+        public bool OpenFestival(int numberOfGuests)
         {
             var festival = _repository.GetFestival();
+            if (festival.State == FestivalState.Open)
+            {
+                return false;
+            }
+
             festival.Open(numberOfGuests);
 
             _festivalCommandDispatcher.Dispatch(new OpenFestivalCommand());
 
+            int maxFollowIndex = (int)(numberOfGuests / 100.0f * FollowerPercentage);
             for (int index = 0; index < numberOfGuests; index++)
             {
-                var guest = CreateGuest(festival.GuestList);
+                var guestType = index < maxFollowIndex ? GuestType.Follower : GuestType.Misfit;
+                var guest = new Guest(guestType);
                 festival.RegisterGuest(guest);
+
+                Console.WriteLine($"Guest account {guestType}");
 
                 if (guest.Ticket != null)
                 {
                     _guestCommandDispatcher.Dispatch(new AddGuestCommand(guest.Ticket.Id, guest.Type == GuestType.Follower));
                 }
             }
+
+            return true;
         }
 
-        public void CloseFestival()
+        public bool CloseFestival()
         {
             var festival = _repository.GetFestival();
+            if (festival.State == FestivalState.Closed)
+            {
+                return false;
+            }
+
             var list = festival.GuestList;
             foreach (var guest in list)
             {
@@ -59,6 +75,8 @@ namespace FestivalDemo.WebServer.Domain.Services
 
             _festivalCommandDispatcher.Dispatch(new CloseFestivalCommand());
             festival.Close();
+
+            return true;
         }
 
         public void BuildFestival(int buildingId, BuildingType buildingType, float longitude, float latitude)
@@ -73,17 +91,6 @@ namespace FestivalDemo.WebServer.Domain.Services
         {
             var festival = _repository.GetFestival();
             return festival.Buildings;
-        }
-
-        private static Guest CreateGuest(ICollection<Guest> list)
-        {
-            var totalGuest = list.Count + 1;
-            var numberOfNewFollowers = (int)(totalGuest / _followerPercentage);
-            var numberOfCurrentFollowers = list.Where(g => g.Type == GuestType.Follower).Count();
-
-            var guestType = numberOfNewFollowers > numberOfCurrentFollowers ? GuestType.Follower : GuestType.Misfit;
-
-            return new Guest(guestType);
         }
     }
 }

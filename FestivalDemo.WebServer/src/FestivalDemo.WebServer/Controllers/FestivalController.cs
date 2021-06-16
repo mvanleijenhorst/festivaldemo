@@ -8,7 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace FestivalDemo.WebServer.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
+    //[ApiExplorerSettings(GroupName = "Festival")]
     public class FestivalController
     {
         private readonly IFestivalService _festivalService;
@@ -19,16 +20,16 @@ namespace FestivalDemo.WebServer.Controllers
          
         [Route("open/{numberOfGuests}")]
         [HttpPost]
-        public void OpenFestival(int numberOfGuests)
+        public bool OpenFestival(int numberOfGuests)
         {
-            _festivalService.OpenFestival(numberOfGuests);
+            return _festivalService.OpenFestival(numberOfGuests);
         }
 
         [Route("close")]
         [HttpPost]
-        public void CloseFestival()
+        public bool CloseFestival()
         {
-            _festivalService.CloseFestival();
+            return _festivalService.CloseFestival();
         }
 
     }

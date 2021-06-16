@@ -8,7 +8,7 @@ namespace FestivalDemo.WebServer.Domain.Services
         IReadOnlyCollection<Building> GetBuildings();
         void BuildFestival(int buildingId, BuildingType buildingType, float longitude, float latitude);
 
-        void OpenFestival(int numberOfGuests);
-        void CloseFestival();
+        bool OpenFestival(int numberOfGuests);
+        bool CloseFestival();
     }
 }

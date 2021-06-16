@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FestivalDemo.WebServer.Domain.Models
 {
@@ -23,8 +21,8 @@ namespace FestivalDemo.WebServer.Domain.Models
         public int MaxGuests { get; private set; }
 
         public ReadOnlyCollection<Guest> GuestList
-        { 
-            get { return _guests.Values.ToList().AsReadOnly(); } 
+        {
+            get { return _guests.Values.ToList().AsReadOnly(); }
         }
 
         public void RegisterGuest(Guest guest)
@@ -73,7 +71,7 @@ namespace FestivalDemo.WebServer.Domain.Models
         public void Open(int maxGuests)
         {
             MaxGuests = maxGuests;
-            
+
             for (int index = 0; index < MaxGuests; index++)
             {
                 var ticket = new Ticket(index, Guid.NewGuid());
@@ -94,9 +92,10 @@ namespace FestivalDemo.WebServer.Domain.Models
 
         public void AddBuilding(Building building)
         {
+            Console.WriteLine($"Stand: {building.Type}");
             _buildings.Add(building);
         }
 
-        
+
     }
 }

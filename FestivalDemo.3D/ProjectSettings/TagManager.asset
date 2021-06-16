@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Wall
   - CrowdAgent
+  - Dixie
+  - EHBO
+  - Stand
+  - Podium
   layers:
   - Default
   - TransparentFX

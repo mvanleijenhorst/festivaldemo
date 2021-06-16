@@ -20,12 +20,12 @@ namespace FestivalDemo.WebServer.DomainService.Commands
 
         public void Dispatch(OpenFestivalCommand command)
         {
-            _serviceBus.AddMessage(ConfigurationConstants.OutgoingQueue, command);
+            _serviceBus.AddMessage(QueueConstant.OutgoingQueue, command);
         }
 
         public void Dispatch(CloseFestivalCommand command)
         {
-            _serviceBus.AddMessage(ConfigurationConstants.OutgoingQueue, command);
+            _serviceBus.AddMessage(QueueConstant.OutgoingQueue, command);
         }
     }
 }

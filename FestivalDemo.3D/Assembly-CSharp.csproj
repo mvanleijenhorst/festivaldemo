@@ -64,12 +64,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Common\BuildingType.cs" />
+    <Compile Include="Assets\Communications\Messages\AddGuestCommand.cs" />
+    <Compile Include="Assets\Communications\Messages\BuildingInfoCommand.cs" />
+    <Compile Include="Assets\Communications\Messages\CloseFestivalCommand.cs" />
+    <Compile Include="Assets\Communications\Messages\OpenFestivalCommand.cs" />
+    <Compile Include="Assets\Communications\Messages\RemoveGuestCommand.cs" />
+    <Compile Include="Assets\Communications\Messages\UpdateGuestCommand.cs" />
     <Compile Include="Assets\Communications\ReceiverTask.cs" />
     <Compile Include="Assets\Communications\SenderTask.cs" />
     <Compile Include="Assets\Communications\WebSocketClient.cs" />
     <Compile Include="Assets\Scripts\Communication\Communicator.cs" />
     <Compile Include="Assets\Scripts\Players\PositionAgent.cs" />
     <Compile Include="Assets\Scripts\Players\TargetSelector.cs" />
+    <Compile Include="Assets\Serializations\IWebSocketMessage.cs" />
+    <Compile Include="Assets\Serializations\Messages\AddGuestCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\Messages\BuildingInfoCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\Messages\CloseFestivalCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\Messages\OpenFestivalCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\Messages\RemoveGuestCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\Messages\UpdateGuestCommandSerializer.cs" />
+    <Compile Include="Assets\Serializations\WebSocketCommandType.cs" />
+    <Compile Include="Assets\Serializations\WebSocketMessageSerializer.cs" />
+    <None Include="Assets\Characters\Characters\Shaders\Alien.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\EyeLash.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\EyeBallsHD.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\EnergyCore.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\SculptedHair.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\ToonSkin.shader" />
+    <None Include="Assets\Characters\Characters\Shaders\Dissolve.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.14f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -599,31 +622,31 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.14f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

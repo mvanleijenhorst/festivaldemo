@@ -21,6 +21,7 @@ namespace FestivalDemo.WebServer.Infrastructure.WebSockets.Messages
         {
             var bytes = new List<byte>();
             bytes.AddRange(BitConverter.GetBytes((int)WebSocketCommandType.AddGuest));
+            bytes.AddRange(BitConverter.GetBytes(command.GuestId));
             bytes.AddRange(BitConverter.GetBytes(command.IsFollower));
             return bytes.ToArray();
         }

@@ -619,10 +619,10 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.14f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/code/github/FestivalDemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/code/mvanleijenhorst/festivaldemo/FestivalDemo.3D/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
