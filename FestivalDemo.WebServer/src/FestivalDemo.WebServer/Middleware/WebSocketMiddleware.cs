@@ -63,27 +63,27 @@ namespace FestivalDemo.WebServer.Middleware
                                 if (bytes != null && bytes.Any())
                                 {
                                     var message = WebSocketMessageSerializer.Deserialize(bytes);
-                                    _adapter.AddMessage(ConfigurationConstants.IncomingQueue, message);
+                                    _adapter.AddMessage(QueueConstant.IncomingQueue, message);
                                 }
                             }
-                            catch (NotSupportedException ex)
+                            catch (NotSupportedException exception)
                             {
-                                _logger.LogWarning("Retreive invalid message '{Exception}'.", ex);
+                                _logger.LogWarning("Retreive invalid message '{Exception}'.", exception);
                             }
                         }
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        _logger.LogError("Connection failed with message '{0}'.", ex.Message);
+                        _logger.LogError("Connection failed with message '{Exception}'.", exception);
                     }
 
                     try
                     {
                         await _dispatcher.CloseSocketAsync();
                     }
-                    catch (Exception ex)
+                    catch (Exception exception)
                     {
-                        Console.WriteLine("Unexpected error with message '{0}'." + ex.Message);
+                        _logger.LogError("Unexpected error with message '{Exception}'.", exception);
                     }
                 }
             }

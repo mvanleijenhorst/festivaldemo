@@ -30,7 +30,7 @@ namespace FestivalDemo.WebServer.BackgroundServices
             {
                 if (_client.IsConnected())
                 {
-                    if (_adapter.TryGetMessage(ConfigurationConstants.OutgoingQueue, out var message))
+                    while (_adapter.TryGetMessage(QueueConstant.OutgoingQueue, out var message))
                     {
                         if (message != null)
                         {
@@ -45,8 +45,6 @@ namespace FestivalDemo.WebServer.BackgroundServices
                             }
                         }
                     }
-
-                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken).ConfigureAwait(false);
                 }
                 await Task.Delay(TimeSpan.FromSeconds(5), stoppingToken).ConfigureAwait(false);
             }

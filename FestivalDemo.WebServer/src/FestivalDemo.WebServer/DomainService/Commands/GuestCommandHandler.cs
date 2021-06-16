@@ -15,7 +15,6 @@ namespace FestivalDemo.WebServer.DomainService.Commands
 
         public void HandleCommand(UpdateGuestCommand command)
         {
-            Console.WriteLine("Yes command binnen!!");
             _service.MoveGuest(command.GuestId, command.Longitude, command.Latitude);
         }
     }

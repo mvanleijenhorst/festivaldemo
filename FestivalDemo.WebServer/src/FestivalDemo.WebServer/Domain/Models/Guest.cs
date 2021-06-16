@@ -21,7 +21,7 @@ namespace FestivalDemo.WebServer.Domain.Models
 
         public void Move(Coordinate position)
         {
-            Position += position;
+            Position = position;
         }
 
         public void GiveTicket(Ticket ticket)

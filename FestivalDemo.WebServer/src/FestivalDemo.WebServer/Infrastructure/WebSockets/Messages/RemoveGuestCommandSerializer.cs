@@ -17,7 +17,7 @@ namespace FestivalDemo.WebServer.Infrastructure.WebSockets.Messages
         public static byte[] Serialize(RemoveGuestCommand command)
         {
             var bytes = new List<byte>();
-            bytes.AddRange(BitConverter.GetBytes((int)WebSocketCommandType.AddGuest));
+            bytes.AddRange(BitConverter.GetBytes((int)WebSocketCommandType.RemoveGuest));
             bytes.AddRange(BitConverter.GetBytes(command.GuestId));
             return bytes.ToArray();
         }

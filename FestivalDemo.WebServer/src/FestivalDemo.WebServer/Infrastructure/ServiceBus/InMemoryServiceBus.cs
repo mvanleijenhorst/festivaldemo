@@ -18,12 +18,12 @@ namespace FestivalDemo.WebServer.Infrastructure.InMemory
 
         public void AddMessage(string queueName, object message)
         {
-            if (ConfigurationConstants.IncomingQueue.Equals(queueName))
+            if (QueueConstant.IncomingQueue.Equals(queueName))
             {
                 _incomingQueue.Enqueue(message);
             }
 
-            if (ConfigurationConstants.OutgoingQueue.Equals(queueName))
+            if (QueueConstant.OutgoingQueue.Equals(queueName))
             {
                 _outgoingQueue.Enqueue(message);
             }
@@ -31,13 +31,13 @@ namespace FestivalDemo.WebServer.Infrastructure.InMemory
 
         public bool TryGetMessage(string queueName, out object? message)
         {
-            if (ConfigurationConstants.IncomingQueue.Equals(queueName))
+            if (QueueConstant.IncomingQueue.Equals(queueName))
             {
                 return _incomingQueue.TryDequeue(out message);
             }
 
-            if (ConfigurationConstants.OutgoingQueue.Equals(queueName))
-            {
+            if (QueueConstant.OutgoingQueue.Equals(queueName))
+            { 
                 return _outgoingQueue.TryDequeue(out message);
             }
 

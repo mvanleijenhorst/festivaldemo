@@ -11,6 +11,6 @@ namespace FestivalDemo.WebServer.Domain.Models
         Podium = 1,
         Stand = 2,
         Ehbo = 3,
-        Bixie = 4,
+        Dixie = 4,
     }
 }
