@@ -40,7 +40,10 @@ namespace Communications
         }
         internal void Send(byte[] message)
         {
-            _queue.Enqueue(message);
+            if (_queue.Count() < 2000)
+            {
+                _queue.Enqueue(message);
+            }
         }
 
         private async Task Run()
