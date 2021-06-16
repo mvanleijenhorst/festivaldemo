@@ -1,0 +1,92 @@
+resources:
+- repo: self
+
+variables:
+  BuildConfiguration: 'Release'
+  ProjectFiles: '**/*.csproj'
+  TestProjectFiles: '**/*[Tt]ests/*.csproj'  
+  ServerProjectFiles: '**/*Web*/*.csproj'
+    
+stages: 
+- stage: BuildAndTestCode
+  displayName: 'Build and test the code'
+  jobs:
+  - job: Build
+    displayName: 'Build and test the code'
+    pool: 
+      name: 'self-hosted'
+    workspace:
+      clean: all
+    steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        useGlobalJson: true
+        workingDirectory: './src'
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: '$(ProjectFiles)'
+        feedsToUse: 'config'
+        nugetConfigPath: 'src/NuGet.config'
+        externalFeedCredentials: 'nuget-group'
+  
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        projects: '$(ProjectFiles)'
+        arguments: '--configuration $(BuildConfiguration)' 
+
+    - task: DotNetCoreCLI@2
+      displayName: 'Publish Server'
+      inputs:
+        command: publish
+        projects: '$(ServerProjectFiles)'
+        publishWebProjects: false
+        zipAfterPublish: false
+        arguments: '--output  $(Build.ArtifactStagingDirectory)/applications/server --configuration $(BuildConfiguration)'
+
+    - task: CopyFiles@2
+      inputs:
+        SourceFolder: 'src'
+        Contents: '**/Dockerfile'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)/applications/docker'
+
+    - publish: '$(Build.ArtifactStagingDirectory)/applications'
+      displayName: 'Publish Artifact'
+      artifact: 'applications'
+
+
+- stage: BuildContainerImages
+  displayName: 'Build container images'
+  dependsOn: 'BuildAndTestCode'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  jobs:
+  - deployment:
+    displayName: 'Deployment of the docker images'
+    pool:
+      name: 'self-hosted'
+    environment: foribus-docker
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - checkout: none
+          - download: current
+            artifact: 'applications'
+
+          - task: Docker@2
+            displayName: 'docker build and push ProxyServer'
+            inputs:
+              containerRegistry: 'docker-registry'
+              repository: $(DockerServerImageName)
+              command: buildAndPush
+              Dockerfile: $(Pipeline.Workspace)/applications/docker/$(DockerServer)/Dockerfile
+              buildContext: $(Pipeline.Workspace)/applications/server/$(DockerServer)
+              tags: |
+               $(Build.BuildId)
+               latest
+              addPipelineData: false
+            continueOnError: false            
