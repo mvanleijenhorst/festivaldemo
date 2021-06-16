@@ -30,7 +30,7 @@ namespace FestivalDemo.WebServer.Controllers
         [Route("/ticket/{id}")]
         public Guest Guest(int id)
         {
-            var guest = _service.GetAllGuests().FirstOrDefault(g => g.Ticket.Id == id);
+            var guest = _service.GetAllGuests().FirstOrDefault(g => g.Ticket?.Id == id);
             if (guest == null)
             { 
                 throw new KeyNotFoundException($"Guest with ticket '{id}' not found.");
