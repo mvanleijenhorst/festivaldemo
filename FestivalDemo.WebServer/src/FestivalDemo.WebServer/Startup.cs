@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using FestivalDemo.WebServer.Authentication;
 using FestivalDemo.WebServer.BackgroundServices;
 using FestivalDemo.WebServer.Domain.Repository;
 using FestivalDemo.WebServer.Domain.Services;
@@ -9,6 +10,7 @@ using FestivalDemo.WebServer.ExceptionFilters;
 using FestivalDemo.WebServer.Infrastructure.InMemory;
 using FestivalDemo.WebServer.Infrastructure.WebSockets;
 using FestivalDemo.WebServer.Middleware;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -45,10 +47,36 @@ namespace FestivalDemo.WebServer
             services.AddHostedService<OutgoingBackgroundService>();
             services.AddHostedService<IncomingBackgroundService>();
 
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddTransient<IUserService, UserService>();
+
             services.AddControllers(o => o.Filters.Add(new HttpResponseExceptionFilter()));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Festival Demo API", Version = "v1" });
+                c.AddSecurityDefinition("basic", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "basic",
+                    In = ParameterLocation.Header,
+                    Description = "Basic Authorization header using the Bearer scheme."
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                          new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "basic"
+                                }
+                            },
+                            new string[] {}
+                    }
+                });
             });
         }
 
@@ -71,10 +99,12 @@ namespace FestivalDemo.WebServer
                 app.UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Festival Demo Api");
+
                 });
             }
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FestivalDemo.WebServer.Domain.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FestivalDemo.WebServer.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     //[ApiExplorerSettings(GroupName = "Festival")]
